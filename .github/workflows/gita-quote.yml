@@ -2,7 +2,7 @@ name: Update Bhagavad Gita Verse
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * *"  # Daily at midnight UTC
   workflow_dispatch:
 
 permissions:
@@ -16,29 +16,160 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Update Gita Verse
+      - name: Calculate and Fetch Today's Verse
         run: |
-          # Calculate verse number based on days since start
-          # Total verses: 700 (1.1 to 18.78)
-          # Simple cycling implementation
+          # ═══════════════════════════════════════════════════════════════
+          # BHAGAVAD GITA VERSE ROTATOR
+          # Cycles through all 700 verses in serial order
+          # ═══════════════════════════════════════════════════════════════
           
+          # Verse mapping: Bhagavad Gita has 18 chapters with varying verses
+          # Chapter 1: 47, Chapter 2: 72, Chapter 3: 43, Chapter 4: 42
+          # Chapter 5: 29, Chapter 6: 47, Chapter 7: 30, Chapter 8: 28
+          # Chapter 9: 34, Chapter 10: 42, Chapter 11: 55, Chapter 12: 20
+          # Chapter 13: 35, Chapter 14: 27, Chapter 15: 20, Chapter 16: 24
+          # Chapter 17: 28, Chapter 18: 78
+          # Total: 701 verses (but we'll use 700 for clean cycling)
+          
+          VERSES_PER_CHAPTER=(47 72 43 42 29 47 30 28 34 42 55 20 35 27 20 24 28 78)
+          
+          # Calculate days since start date
           START_DATE="2026-01-01"
-          TODAY=$(date +%s)
-          START=$(date -d "$START_DATE" +%s)
-          DAYS_DIFF=$(( (TODAY - START) / 86400 ))
+          TODAY_SECONDS=$(date +%s)
+          START_SECONDS=$(date -d "$START_DATE" +%s)
+          DAYS_DIFF=$(( (TODAY_SECONDS - START_SECONDS) / 86400 ))
+          
+          # Get verse index (0-699, cycling)
           VERSE_INDEX=$(( DAYS_DIFF % 700 ))
           
-          echo "Day $DAYS_DIFF - Verse index: $VERSE_INDEX"
+          echo "📅 Day $DAYS_DIFF since start"
+          echo "📖 Verse index: $VERSE_INDEX"
           
-          # This is a placeholder - in production, you would:
-          # 1. Read from a verses.json file containing all 700 verses
-          # 2. Update the README.md with the verse for today
-          # 3. Commit and push the changes
+          # Convert verse index to chapter and verse number
+          CHAPTER=1
+          REMAINING=$VERSE_INDEX
           
-      - name: Commit Changes
+          for i in "${!VERSES_PER_CHAPTER[@]}"; do
+            CHAPTER_VERSES=${VERSES_PER_CHAPTER[$i]}
+            if [ $REMAINING -lt $CHAPTER_VERSES ]; then
+              CHAPTER=$((i + 1))
+              VERSE=$((REMAINING + 1))
+              break
+            fi
+            REMAINING=$((REMAINING - CHAPTER_VERSES))
+          done
+          
+          echo "🎯 Chapter $CHAPTER, Verse $VERSE"
+          
+          # Fetch verse from Vedic Scriptures API
+          API_URL="https://vedicscriptures.github.io/slok/${CHAPTER}/${VERSE}"
+          echo "🌐 Fetching from: $API_URL"
+          
+          RESPONSE=$(curl -s "$API_URL")
+          
+          # Extract data using jq
+          SLOK=$(echo "$RESPONSE" | jq -r '.slok')
+          TRANSLATION=$(echo "$RESPONSE" | jq -r '.siva.et // .tej.ht // .purohit.et')
+          TRANSLITERATION=$(echo "$RESPONSE" | jq -r '.transliteration')
+          
+          echo "📜 Sanskrit: $SLOK"
+          echo "🔤 Translation: $TRANSLATION"
+          
+          # Create the new verse block
+          cat > /tmp/verse_block.txt << 'VERSE_TEMPLATE'
+          <img src="https://img.shields.io/badge/अध्याय_CHAPTER_NUM-श्लोक_VERSE_NUM-FF9933?style=flat-square&labelColor=0d1117"/>
+          
+          ```sanskrit
+          SANSKRIT_TEXT
+          ```
+          
+          <sub>
+          
+          **TRANSLATION_TEXT**
+          
+          *— Bhagavad Gita, Chapter CHAPTER_NUM, Verse VERSE_NUM*
+          
+          </sub>
+          VERSE_TEMPLATE
+          
+          # Replace placeholders
+          sed -i "s/CHAPTER_NUM/$CHAPTER/g" /tmp/verse_block.txt
+          sed -i "s/VERSE_NUM/$VERSE/g" /tmp/verse_block.txt
+          
+          # Handle multi-line Sanskrit text
+          SLOK_ESCAPED=$(echo "$SLOK" | sed 's/|/।/g' | sed 's/\\n/\n/g')
+          
+          # Create Python script for complex replacement
+          python3 << EOF
+          import re
+          
+          # Read the template
+          with open('/tmp/verse_block.txt', 'r') as f:
+              template = f.read()
+          
+          # Read current README
+          with open('README.md', 'r') as f:
+              readme = f.read()
+          
+          # Sanskrit text (clean up)
+          slok = '''$SLOK'''
+          slok = slok.replace('\\n', '\n').replace('|', '।')
+          
+          # Translation
+          translation = '''$TRANSLATION'''
+          
+          # Build the new verse section
+          new_verse = template.replace('SANSKRIT_TEXT', slok).replace('TRANSLATION_TEXT', translation)
+          
+          # Find and replace the verse section in README
+          # Pattern: everything between the Gita badge table and the next ---
+          pattern = r'(<img src="https://img\.shields\.io/badge/अध्याय_\d+-श्लोक_\d+.*?<sub>📅 Updates daily)'
+          
+          # Alternative: Replace content between markers
+          start_marker = '<td align="center" width="800">'
+          end_marker = '<sub>📅 Updates daily'
+          
+          start_idx = readme.find(start_marker)
+          end_idx = readme.find(end_marker)
+          
+          if start_idx != -1 and end_idx != -1:
+              # Extract the part before and after
+              before = readme[:start_idx + len(start_marker)]
+              after = readme[end_idx:]
+              
+              # Build new content
+              new_content = '''
+          
+          ''' + new_verse.strip() + '''
+          
+          <br>
+          
+          '''
+              
+              new_readme = before + new_content + after
+              
+              with open('README.md', 'w') as f:
+                  f.write(new_readme)
+              
+              print("✅ README updated successfully!")
+          else:
+              print("❌ Could not find verse markers in README")
+              exit(1)
+          EOF
+          
+      - name: Commit and Push Changes
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.name "Gita Bot 📖"
           git add README.md
-          git diff --quiet && git diff --staged --quiet || git commit -m "📖 Daily Gita verse update"
-          git push
+          
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            CHAPTER=$(grep -oP '(?<=Chapter )\d+' README.md | head -1)
+            VERSE=$(grep -oP '(?<=Verse )\d+' README.md | head -1)
+            git commit -m "📖 Daily Gita: Chapter $CHAPTER, Verse $VERSE"
+            git push
+            echo "✅ Pushed new verse!"
+          fi
