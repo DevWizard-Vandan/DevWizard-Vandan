@@ -1,0 +1,44 @@
+name: Update Bhagavad Gita Verse
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-verse:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Update Gita Verse
+        run: |
+          # Calculate verse number based on days since start
+          # Total verses: 700 (1.1 to 18.78)
+          # Simple cycling implementation
+          
+          START_DATE="2026-01-01"
+          TODAY=$(date +%s)
+          START=$(date -d "$START_DATE" +%s)
+          DAYS_DIFF=$(( (TODAY - START) / 86400 ))
+          VERSE_INDEX=$(( DAYS_DIFF % 700 ))
+          
+          echo "Day $DAYS_DIFF - Verse index: $VERSE_INDEX"
+          
+          # This is a placeholder - in production, you would:
+          # 1. Read from a verses.json file containing all 700 verses
+          # 2. Update the README.md with the verse for today
+          # 3. Commit and push the changes
+          
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "📖 Daily Gita verse update"
+          git push

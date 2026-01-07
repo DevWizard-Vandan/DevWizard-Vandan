@@ -1,0 +1,48 @@
+name: GitHub Metrics
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Full Metrics
+        uses: lowlighter/metrics@latest
+        with:
+          # Use GITHUB_TOKEN instead of custom PAT for basic metrics
+          # For advanced features, create a PAT and add as METRICS_TOKEN
+          token: ${{ secrets.GITHUB_TOKEN }}
+          user: DevWizard-Vandan
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Asia/Kolkata
+          
+          # Languages
+          plugin_languages: yes
+          plugin_languages_analysis_timeout: 15
+          plugin_languages_categories: markup, programming
+          plugin_languages_colors: github
+          plugin_languages_limit: 8
+          plugin_languages_sections: most-used
+          
+          # Lines of code
+          plugin_lines: yes
+          plugin_lines_sections: base
+          
+          # Isocalendar
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: half-year
+
+# ⚙️ NOTE:
+# This workflow uses GITHUB_TOKEN for basic metrics.
+# For advanced features (achievements, habits, stars), you need a PAT:
+# 1. Go to GitHub Settings > Developer settings > Personal access tokens
+# 2. Create a token with 'repo' scope
+# 3. Add it as METRICS_TOKEN in repository secrets
+# 4. Change 'token: ${{ secrets.GITHUB_TOKEN }}' to 'token: ${{ secrets.METRICS_TOKEN }}'
