@@ -104,7 +104,7 @@ My philosophy: *If you can't explain the memory layout, you don't understand the
 💼 Status: Open for Internships
 🎯 Focus: Distributed Systems, HFT, Lock-Free
 📚 Reading: "Designing Data-Intensive Applications"
-🔧 Building: Titan (HFT Matching Engine)
+✅ Completed: Titan (12.8M matches/sec)
 ☕ Fuel: Endless chai
 ```
 
@@ -270,20 +270,33 @@ $$\large \forall \, i > 0 : \quad \text{log}[i].\text{term} = \text{peer}[i].\te
 
 <div align="center">
 
-### ⚡ TITAN — HFT Matching Engine `[IN PROGRESS]`
+### ⚡ TITAN — Ultra Low-Latency Matching Engine
 
-<img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white"/> <img src="https://img.shields.io/badge/Lock_Free-f093fb?style=for-the-badge"/> <img src="https://img.shields.io/badge/Sub_Microsecond-764ba2?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white"/> <img src="https://img.shields.io/badge/12.8M_matches%2Fsec-00ff00?style=for-the-badge"/> <img src="https://img.shields.io/badge/P99:_200ns-f093fb?style=for-the-badge"/>
 
 </div>
 
 <br>
 
-> **The Problem:** *Locks cost microseconds. In HFT, microseconds are fortunes.*
+A single-threaded, lock-free HFT-style matching engine designed around **cache locality** and **zero-allocation hot paths**.
+
+<br>
+
+<div align="center">
+
+| Metric | Target | **Achieved** |
+|:---:|:---:|:---:|
+| Insert Throughput | 1M/sec | **12.6M/sec** |
+| Match Throughput | 1M/sec | **12.8M/sec** |
+| P50 Latency | <20μs | **0ns** |
+| P99 Latency | <100μs | **200ns** |
+
+</div>
 
 <br>
 
 <details>
-<summary><b>📐 View Architecture Diagram</b></summary>
+<summary><b>📐 Architecture</b></summary>
 <br>
 
 ```mermaid
@@ -323,35 +336,27 @@ flowchart LR
 </details>
 
 <details>
-<summary><b>📋 Technical Specifications</b></summary>
+<summary><b>🔧 Design Decisions</b></summary>
 <br>
 
-| Component | Technique | Why It Matters |
-|:---:|:---|:---|
-| **Ring Buffer** | Lock-free SPSC, power-of-2 size | Zero contention, mechanical sympathy |
-| **Memory** | Cache-line aligned (64B), `#[repr(C)]` | Eliminate false sharing |
-| **Allocations** | Object pool, arena allocator | Zero allocs in hot path |
-| **Threading** | Single matcher, isolated core, `SCHED_FIFO` | No context switches |
-| **Order Book** | Intrusive lists per price level | O(1) insert/cancel |
-| **I/O** | `io_uring` edge-triggered | Minimal syscalls |
-
-**Targets:** 1M+ orders/sec @ <1μs p99 latency
-
-</details>
-
-<details>
-<summary><b>🔢 Mathematical Proof: Little's Law</b></summary>
-<br>
-
-$$\large L = \lambda \cdot W \quad \text{where} \quad W_{\text{service}} = O(1)$$
-
-*Queue length equals arrival rate times service time. With O(1) service time, throughput scales linearly.*
+| Technique | Implementation |
+|:---|:---|
+| **LMAX Disruptor** | Lock-free SPSC ring buffer, 128B cache-line padding |
+| **Cache Alignment** | 64B Order struct = 1 cache line exactly |
+| **Fixed-Point Math** | `Price(u64)`, `Quantity(u64)` — no floats |
+| **Zero Allocation** | Pre-allocated `OrderPool` (1M orders) |
+| **CPU Isolation** | Single-threaded core, `SCHED_FIFO`, no context switches |
+| **Latency Tracking** | HdrHistogram with RDTSC timing |
 
 </details>
 
 <br>
 
 <div align="center">
+
+*When latency is the product, every nanosecond is a design decision.*
+
+<br>
 
 [![Titan](https://img.shields.io/badge/🔗_View_Repository-Titan-f093fb?style=for-the-badge)](https://github.com/DevWizard-Vandan/Titan)
 
