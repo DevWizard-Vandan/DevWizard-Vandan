@@ -480,6 +480,11 @@ flowchart LR
 
 <br><br>
 
+<!--START_SECTION:activity-->
+<!--END_SECTION:activity-->
+
+<br><br>
+
 <img src="https://github-readme-stats.vercel.app/api?username=DevWizard-Vandan&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=667eea&icon_color=764ba2&text_color=c9d1d9&include_all_commits=true&count_private=true" height="180"/>
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=DevWizard-Vandan&layout=compact&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=667eea&text_color=c9d1d9&langs_count=8" height="180"/>
 
