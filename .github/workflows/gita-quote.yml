@@ -18,36 +18,13 @@ jobs:
         
       - name: Calculate and Fetch Today's Verse
         run: |
+          set -e  # Exit on error (default, but explicit)
+          
           # ═══════════════════════════════════════════════════════════════
           # BHAGAVAD GITA VERSE ROTATOR
           # Cycles through all 700 verses in serial order
           # ═══════════════════════════════════════════════════════════════
           
-          # Use a loop to retry or fallback if needed
-          fetch_verse() {
-            local chapter=$1
-            local verse=$2
-            local url="https://vedicscriptures.github.io/slok/${chapter}/${verse}"
-            
-            echo "🌐 Fetching from: $url"
-            response=$(curl -s -f "$url")
-            exit_code=$?
-            
-            if [ $exit_code -ne 0 ] || [ -z "$response" ]; then
-              echo "❌ Failed to fetch verse (curl error or empty response)"
-              return 1
-            fi
-
-            # Validate JSON
-            if ! echo "$response" | jq -e . >/dev/null 2>&1; then
-               echo "❌ Invalid JSON response: $response"
-               return 1
-            fi
-            
-            echo "$response"
-            return 0
-          }
-
           VERSES_PER_CHAPTER=(47 72 43 42 29 47 30 28 34 42 55 20 35 27 20 24 28 78)
           
           START_DATE="2026-01-01"
@@ -78,132 +55,117 @@ jobs:
           
           echo "🎯 Target: Chapter $CHAPTER, Verse $VERSE"
           
-          # Attempt fetch
-          RESPONSE=$(fetch_verse $CHAPTER $VERSE)
+          # Attempt fetch - disable exit-on-error temporarily
+          set +e
+          API_URL="https://vedicscriptures.github.io/slok/${CHAPTER}/${VERSE}"
+          echo "🌐 Fetching from: $API_URL"
+          RESPONSE=$(curl -s -f "$API_URL" 2>/dev/null)
+          CURL_EXIT=$?
+          set -e
           
-          if [ $? -ne 0 ]; then
-             echo "⚠️ Fetch failed. Using fallback verse (BG 2.47)."
-             RESPONSE='{"slok": "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन |\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ||२-४७||", "transliteration": "karmaṇyevādhikāraste mā phaleṣu kadācana ...", "siva": {"et": "Thy right is to work only, but never with its fruits; let not the fruits of action be thy motive, nor let thy attachment be to inaction."}}' # Minimal fallback JSON
+          # Validate response
+          FETCH_SUCCESS=0
+          if [ $CURL_EXIT -eq 0 ] && [ -n "$RESPONSE" ]; then
+            # Check if valid JSON
+            if echo "$RESPONSE" | jq -e . >/dev/null 2>&1; then
+              echo "✅ Successfully fetched verse from API"
+              FETCH_SUCCESS=1
+            else
+              echo "⚠️ API returned invalid JSON"
+            fi
+          else
+            echo "⚠️ curl failed or empty response (exit code: $CURL_EXIT)"
+          fi
+          
+          # Use fallback if fetch failed
+          if [ $FETCH_SUCCESS -eq 0 ]; then
+             echo "🔄 Using fallback verse (BG 2.47)"
+             RESPONSE='{"slok":"कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥","siva":{"et":"You have the right to work only, but never to its fruits. Let not the fruits of action be your motive, nor let your attachment be to inaction."}}'
              CHAPTER=2
              VERSE=47
-             # We construct a minimal valid JSON for the parser below to allow workflow to pass
           fi
 
-          # Extract data using jq - using null coalescing for robustness
-          SLOK=$(echo "$RESPONSE" | jq -r '.slok // "Update failed"' | sed 's/\\n/\n/g')
-          # Try multiple translation sources
-          TRANSLATION=$(echo "$RESPONSE" | jq -r '(.siva.et // .tej.ht // .purohit.et // .chinmay.et // .san.et // "Translation unavailable")' | sed 's/"/\\"/g') 
+          # Extract data using jq
+          SLOK=$(echo "$RESPONSE" | jq -r '.slok // "ERROR"')
+          TRANSLATION=$(echo "$RESPONSE" | jq -r '(.siva.et // .tej.ht // .purohit.et // "Translation unavailable")')
           
-          if [ "$SLOK" == "Update failed" ]; then
-             echo "❌ Critical error: Could not extract slok from response."
+          if [ "$SLOK" == "ERROR" ]; then
+             echo "❌ Failed to extract slok from response"
              exit 1
           fi
 
-          echo "📜 Sanskrit found"
-          echo "🔤 Translation found"
+          # Clean up slok
+          SLOK=$(echo "$SLOK" | sed 's/\\n/\n/g' | sed 's/|/।/g')
           
-          # Create verse block template
-          cat > /tmp/verse_block.txt << 'VERSE_TEMPLATE'
-          <img src="https://img.shields.io/badge/अध्याय_CHAPTER_NUM-श्लोक_VERSE_NUM-FF9933?style=flat-square&labelColor=0d1117"/>
+          echo "📜 Sanskrit text extracted"
+          echo "🔤 Translation extracted"
           
-          ```sanskrit
-          SANSKRIT_TEXT
-          ```
+          # Export for Python script
+          export CHAPTER
+          export VERSE
+          export SLOK
+          export TRANSLATION
           
-          <sub>
-          
-          **TRANSLATION_TEXT**
-          
-          *— Bhagavad Gita, Chapter CHAPTER_NUM, Verse VERSE_NUM*
-          
-          </sub>
-          VERSE_TEMPLATE
-          
-          # Python script to safely replace content in README
-          python3 << EOF
-          import re
+          # Update README with Python
+          python3 << 'PYTHON_SCRIPT'
+          import sys
           import os
           
-          template_path = '/tmp/verse_block.txt'
+          # Read environment variables set by bash
+          chapter = os.environ.get('CHAPTER', '2')
+          verse = os.environ.get('VERSE', '47')
+          slok = os.environ.get('SLOK', 'Error')
+          translation = os.environ.get('TRANSLATION', 'Translation unavailable')
+          
           readme_path = 'README.md'
           
           try:
-              with open(template_path, 'r', encoding='utf-8') as f:
-                  template = f.read()
-              
               with open(readme_path, 'r', encoding='utf-8') as f:
                   readme = f.read()
               
-              # Inputs
-              chapter = "$CHAPTER"
-              verse = "$VERSE"
-              slok = """$SLOK""" 
-              translation = """$TRANSLATION"""
+              # Build new verse block
+              new_verse = f'''<img src="https://img.shields.io/badge/अध्याय_{chapter}-श्लोक_{verse}-FF9933?style=flat-square&labelColor=0d1117"/>
+
+          ```sanskrit
+          {slok}
+          ```
+
+          <sub>
+
+          **{translation}**
+
+          *— Bhagavad Gita, Chapter {chapter}, Verse {verse}*
+
+          </sub>'''
               
-              # Pre-process slok: replace pipes with danda
-              slok = slok.replace('|', '।')
-              
-              # Fill template
-              new_verse_block = template.replace('CHAPTER_NUM', chapter).replace('VERSE_NUM', verse)
-              new_verse_block = new_verse_block.replace('SANSKRIT_TEXT', slok)
-              new_verse_block = new_verse_block.replace('TRANSLATION_TEXT', translation)
-              
-              # Define markers in README
-              # We look for the badge image start and the closing sub tag
-              # Reuse robust markers from previous attempt or standard ones
-              
-              # Broad regex to capture the specific daily gita section
-              # From: <img src="https://img.shields.io/badge/अध्याय_ ...
-              # To: ... <sub>📅 Updates daily via GitHub Actions • Cycles through all 700 verses</sub>
-              
-              # NOTE: The previous regex was: r'(<img src="https://img\.shields\.io/badge/अध्याय_\d+-श्लोक_\d+.*?<sub>📅 Updates daily)'
-              # This relies on the specific content being present.
-              # A safer way is using unique HTML comment markers if available, but we must work with existing text.
-              # We will try to locate the table cell content.
-              
-              # Strategy: Locate the table cell containing the verse.
-              # It starts after <td align="center" width="800">
-              # It ends before <sub>📅 Updates daily
-              
+              # Find and replace in README
               start_marker = '<td align="center" width="800">'
-              end_marker_text = '<sub>📅 Updates daily'
+              end_marker = '<sub>📅 Updates daily'
               
               start_idx = readme.find(start_marker)
-              end_idx = readme.find(end_marker_text)
+              end_idx = readme.find(end_marker)
               
-              if start_idx != -1 and end_idx != -1:
-                  # We want to replace everything BETWEEN start_marker and end_marker
-                  # But wait, end_marker is showing as an anchor for the footer of that cell.
-                  # Let's inspect the structure from file view.
-                  
-                  # The structure is:
-                  # <td align="center" width="800">
-                  # [THE VERSE BLOCK WE WANT TO REPLACE]
-                  # <br>
-                  # <sub>📅 Updates daily ...
-                  
-                  # So we replace from (start_idx + len(start_marker)) up to found end_idx
-                  # But we need to keep the <br> or add it. The template does not have the trailing <br>.
-                  # The template ends with </sub>.
-                  
-                  prefix = readme[:start_idx + len(start_marker)]
-                  suffix = readme[end_idx:]
-                  
-                  # The new content should simply differ by a few newlines
-                  final_content = prefix + '\n\n' + new_verse_block.strip() + '\n\n<br>\n\n' + suffix
-                  
-                  with open(readme_path, 'w', encoding='utf-8') as f:
-                      f.write(final_content)
-                  print("✅ README updated successfully.")
-                  
-              else:
-                  print("❌ Could not find verse markers. START: {}, END: {}".format(start_idx, end_idx))
-                  exit(1)
-                  
+              if start_idx == -1 or end_idx == -1:
+                  print(f"ERROR: Could not find markers. start={start_idx}, end={end_idx}")
+                  sys.exit(1)
+              
+              # Replace content
+              before = readme[:start_idx + len(start_marker)]
+              after = readme[end_idx:]
+              
+              new_readme = before + '\n\n' + new_verse + '\n\n<br>\n\n' + after
+              
+              with open(readme_path, 'w', encoding='utf-8') as f:
+                  f.write(new_readme)
+              
+              print("✅ README updated successfully")
+              
           except Exception as e:
-              print(f"❌ Python error: {e}")
-              exit(1)
-          EOF
+              print(f"ERROR: {e}")
+              import traceback
+              traceback.print_exc()
+              sys.exit(1)
+          PYTHON_SCRIPT
 
       - name: Commit and Push Changes
         run: |
@@ -212,11 +174,9 @@ jobs:
           git add README.md
           
           if git diff --staged --quiet; then
-            echo "No changes to commit"
+            echo "ℹ️ No changes to commit"
           else
-            CHAPTER=$(grep -oP '(?<=Chapter )\d+' README.md | head -1)
-            VERSE=$(grep -oP '(?<=Verse )\d+' README.md | head -1)
-            git commit -m "📖 Daily Gita: Chapter $CHAPTER, Verse $VERSE"
+            git commit -m "📖 Daily Gita verse update"
             git push
-            echo "✅ Pushed new verse!"
+            echo "✅ Changes pushed successfully"
           fi
