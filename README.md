@@ -39,7 +39,7 @@
 <tr>
 <td align="center" width="800">
 
-<img src="https://img.shields.io/badge/अध्याय_२-श्लोक_४७-FF9933?style=flat-square&labelColor=0d1117"/>
+<img src="https://img.shields.io/badge/अध्याय_2-श्लोक_47-FF9933?style=flat-square&labelColor=0d1117"/>
 
 ```sanskrit
 कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।
@@ -48,8 +48,7 @@
 
 <sub>
 
-**"You have the right to work only, but never to its fruits.**
-**Let not the fruits of action be your motive, nor let your attachment be to inaction."**
+**You have the right to work only, but never to its fruits. Let not the fruits of action be your motive, nor let your attachment be to inaction.**
 
 *— Bhagavad Gita, Chapter 2, Verse 47*
 
