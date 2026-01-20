@@ -480,6 +480,8 @@ flowchart LR
 <br><br>
 
 <!--START_SECTION:activity-->
+1. 🎉 Merged PR [#1](https://github.com/DevWizard-Vandan/Naman_Portfolio/pull/1) in [DevWizard-Vandan/Naman_Portfolio](https://github.com/DevWizard-Vandan/Naman_Portfolio)
+2. 💪 Opened PR [#1](https://github.com/DevWizard-Vandan/Naman_Portfolio/pull/1) in [DevWizard-Vandan/Naman_Portfolio](https://github.com/DevWizard-Vandan/Naman_Portfolio)
 <!--END_SECTION:activity-->
 
 <br><br>
