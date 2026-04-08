@@ -19,7 +19,8 @@
 <!--                                   TYPING ANIMATION                                               -->
 <!-- ═══════════════════════════════════════════════════════════════════════════════════════════════ -->
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=3000&pause=1000&color=667EEA&center=true&vCenter=true&multiline=true&repeat=false&width=800&height=60&lines=Building+the+invisible+infrastructure+that+holds+the+digital+world+together.)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=3000&pause=1000&color=667EEA&center=true&vCenter=true&multiline=true&repeat=false&width=800&height=60&lines=Building+invisible+infrastructure;that+holds+the+digital+world+together.
+&height=80)](https://git.io/typing-svg)
 
 </div>
 
