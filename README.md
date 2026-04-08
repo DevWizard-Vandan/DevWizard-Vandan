@@ -31,15 +31,12 @@
 
 <div align="center">
 
-<img src="https://img.shields.io/badge/🙏_Daily_Bhagavad_Gita-Verse_of_the_Day-FF9933?style=for-the-badge&labelColor=138808"/>
-
 <br><br>
 
 <table>
 <tr>
 <td align="center" width="800">
 
-<img src="https://img.shields.io/badge/अध्याय_2-श्लोक_47-FF9933?style=flat-square&labelColor=0d1117"/>
 
 ```sanskrit
 कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।
@@ -55,8 +52,6 @@
 </sub>
 
 <br>
-
-<sub>📅 Updates daily via GitHub Actions • Cycles through all 700 verses</sub>
 
 </td>
 </tr>
