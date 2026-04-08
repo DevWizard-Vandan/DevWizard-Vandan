@@ -31,27 +31,33 @@
 
 <div align="center">
 
+<img src="https://media.tenor.com/7D-G6l6Rz68AAAAj/lord-krishna-greetings.gif" width="130" />
+
+<br>
+
+<img src="https://img.shields.io/badge/Shrimad_Bhagavad_Gita-Verse_of_the_Day-667eea?style=for-the-badge&labelColor=0d1117&logo=shrine&logoColor=white"/>
+
 <br><br>
 
 <table>
 <tr>
 <td align="center" width="800">
 
+<br>
 
-```sanskrit
-कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।
-मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥
-```
+<img src="https://img.shields.io/badge/अध्याय_2_•_श्लोक_47-764ba2?style=flat-square&labelColor=0d1117"/>
 
-<sub>
+<br><br>
 
-**You have the right to work only, but never to its fruits. Let not the fruits of action be your motive, nor let your attachment be to inaction.**
-
-*— Bhagavad Gita, Chapter 2, Verse 47*
-
-</sub>
+### कर्मण्येवाधिकारस्ते मा फलेषु कदाचन। <br> मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥
 
 <br>
+
+> **"You have the right to work only, but never to its fruits. Let not the fruits of action be your motive, nor let your attachment be to inaction."**
+
+<br>
+
+<sub>📅 Updates daily via GitHub Actions • Cycle through 700 verses</sub>
 
 </td>
 </tr>
@@ -318,7 +324,7 @@ flowchart LR
     end
     
     subgraph Output["Output"]
-        MD[("📡 Market Data\nZero-Copy Multicast")]
+        MD["📡 Market Data\nZero-Copy Multicast"]
     end
     
     N1 & N2 & N3 --> RB
