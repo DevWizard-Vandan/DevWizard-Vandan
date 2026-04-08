@@ -589,3 +589,73 @@ flowchart LR
 </div>
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,25:764ba2,50:f093fb,75:764ba2,100:667eea&height=120&section=footer"/>
+
+</div>
+
+<br/>
+
+## 🌌 About Me
+
+I am a Systems Architect and distributed systems engineer focused on building high-frequency trading infrastructure and low-latency systems. My work revolves around pushing the boundaries of performance and reliability in complex software environments.
+
+- 🛠️ Currently building **Vajra**, a distributed fault-tolerant in-memory vector database.
+- ⚡ Architected **Titan**, a lock-free matching engine in Rust.
+- 📊 Deeply interested in Market Microstructure and Quantitative Finance.
+- 🎓 Engineering student in India, balancing academic rigor with real-world system design.
+
+<br/>
+
+## 🚀 Featured Engineering
+
+<div align="center">
+  <a href="https://github.com/DevWizard-Vandan/Titan">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=DevWizard-Vandan&repo=Titan&theme=tokyonight" alt="Titan" />
+  </a>
+  <a href="https://github.com/DevWizard-Vandan/Vajra">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=DevWizard-Vandan&repo=Vajra&theme=tokyonight" alt="Vajra" />
+  </a>
+  <a href="https://github.com/DevWizard-Vandan/HFT-Stack">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=DevWizard-Vandan&repo=HFT-Stack&theme=tokyonight" alt="HFT-Stack" />
+  </a>
+</div>
+
+<br/>
+
+## 🛡️ Technologies & Stack
+
+<p align="center">
+  <img src="https://img.shields.io/badge/rust-%23E32F26.svg?style=for-the-badge&logo=rust&logoColor=white" alt="Rust" />
+  <img src="https://img.shields.io/badge/cpp-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++" />
+  <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python" />
+  <img src="https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
+  <img src="https://img.shields.io/badge/flutter-%2302569B.svg?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS" />
+  <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes" />
+  <img src="https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" />
+</p>
+
+<br/>
+
+## 📈 Activity & Insights
+
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=DevWizard-Vandan&show_icons=true&theme=tokyonight&count_private=true" alt="Stats" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=DevWizard-Vandan&theme=tokyonight" alt="Streak" />
+</div>
+
+<br/>
+
+## 📫 Connect with Me
+
+<div align="center">
+  <a href="https://linkedin.com/in/vandan-sharma-682536230">
+    <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="mailto:vandan.sharma06@gmail.com">
+    <img src="https://img.shields.io/badge/gmail-%23D14836.svg?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail" />
+  </a>
+</div>
