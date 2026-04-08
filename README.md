@@ -31,13 +31,7 @@
 
 <div align="center">
 
-<img src="https://media.tenor.com/7D-G6l6Rz68AAAAj/lord-krishna-greetings.gif" width="130" />
-
 <br>
-
-<img src="https://img.shields.io/badge/Shrimad_Bhagavad_Gita-Verse_of_the_Day-667eea?style=for-the-badge&labelColor=0d1117&logo=shrine&logoColor=white"/>
-
-<br><br>
 
 <table>
 <tr>
