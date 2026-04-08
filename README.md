@@ -103,7 +103,7 @@ My philosophy: *If you can't explain the memory layout, you don't understand the
 💼 Status: Open for Internships
 🎯 Focus: Distributed Systems, HFT, Lock-Free
 📚 Reading: "Designing Data-Intensive Applications"
-✅ Completed: Titan (12.8M matches/sec)
+✅ Completed: Titan · Vajra · HFT Stack
 ☕ Fuel: Endless chai
 ```
 
@@ -154,7 +154,8 @@ My philosophy: *If you can't explain the memory layout, you don't understand the
 
 ## 🏗️ Flagship Projects
 
-*Two systems. Opposite poles. Complete mastery of infrastructure.*
+### 🔗 [Complete HFT Stack — devwizard-vandan.github.io/HFT-Stack](https://devwizard-vandan.github.io/HFT-Stack/)
+*Titan + Vajra together — one architecture, one story.*
 
 </div>
 
@@ -253,6 +254,7 @@ $$\large \forall \, i > 0 : \quad \text{log}[i].\text{term} = \text{peer}[i].\te
 
 <div align="center">
 
+[![Demo](https://img.shields.io/badge/🌐_Live_Demo-667eea?style=for-the-badge)](https://devwizard-vandan.github.io/Vajra)
 [![Vajra](https://img.shields.io/badge/🔗_View_Repository-Vajra-667eea?style=for-the-badge)](https://github.com/DevWizard-Vandan/Vajra)
 
 </div>
@@ -357,6 +359,7 @@ flowchart LR
 
 <br>
 
+[![Demo](https://img.shields.io/badge/🌐_Live_Demo-f093fb?style=for-the-badge)](https://devwizard-vandan.github.io/Titan)
 [![Titan](https://img.shields.io/badge/🔗_View_Repository-Titan-f093fb?style=for-the-badge)](https://github.com/DevWizard-Vandan/Titan)
 
 </div>
@@ -387,6 +390,8 @@ flowchart LR
 
 *Together, they prove complete mastery of systems infrastructure—*
 *from the datacenter to the cache line.*
+
+*Now unified as a complete HFT stack — [devwizard-vandan.github.io/HFT-Stack](https://devwizard-vandan.github.io/HFT-Stack/)*
 
 </div>
 
