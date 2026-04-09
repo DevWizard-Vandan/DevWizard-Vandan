@@ -481,8 +481,8 @@ flowchart LR
 <!-- NOTE: This block is auto-updated by the jamesgeorge007/github-activity-readme GitHub Action.
      Make sure the workflow is enabled in this repo, otherwise this will remain stale. -->
 <!--START_SECTION:activity-->
-1. 💪 Opened PR [#1436](https://github.com/openai/parameter-golf/pull/1436) in [openai/parameter-golf](https://github.com/openai/parameter-golf)
-2. 💪 Opened PR [#1](https://github.com/DevWizard-Vandan/Naman_Portfolio/pull/1) in [DevWizard-Vandan/Naman_Portfolio](https://github.com/DevWizard-Vandan/Naman_Portfolio)
+1. 🎉 Merged PR [#2](https://github.com/DevWizard-Vandan/ritam/pull/2) in [DevWizard-Vandan/ritam](https://github.com/DevWizard-Vandan/ritam)
+2. ℹ️ Labeled PR [#2](https://github.com/DevWizard-Vandan/ritam/pull/2) in [DevWizard-Vandan/ritam](https://github.com/DevWizard-Vandan/ritam)
 <!--END_SECTION:activity-->
 
 <br><br>
