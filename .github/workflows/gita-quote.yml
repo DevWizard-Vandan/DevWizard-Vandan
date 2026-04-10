@@ -1,182 +1,182 @@
-name: Update Bhagavad Gita Verse
+# name: Update Bhagavad Gita Verse
 
-on:
-  schedule:
-    - cron: "0 0 * * *"  # Daily at midnight UTC
-  workflow_dispatch:
+# on:
+#   schedule:
+#     - cron: "0 0 * * *"  # Daily at midnight UTC
+#   workflow_dispatch:
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
 
-jobs:
-  update-verse:
-    runs-on: ubuntu-latest
+# jobs:
+#   update-verse:
+#     runs-on: ubuntu-latest
     
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
         
-      - name: Calculate and Fetch Today's Verse
-        run: |
-          set -e  # Exit on error (default, but explicit)
+#       - name: Calculate and Fetch Today's Verse
+#         run: |
+#           set -e  # Exit on error (default, but explicit)
           
-          # ═══════════════════════════════════════════════════════════════
-          # BHAGAVAD GITA VERSE ROTATOR
-          # Cycles through all 700 verses in serial order
-          # ═══════════════════════════════════════════════════════════════
+#           # ═══════════════════════════════════════════════════════════════
+#           # BHAGAVAD GITA VERSE ROTATOR
+#           # Cycles through all 700 verses in serial order
+#           # ═══════════════════════════════════════════════════════════════
           
-          VERSES_PER_CHAPTER=(47 72 43 42 29 47 30 28 34 42 55 20 35 27 20 24 28 78)
+#           VERSES_PER_CHAPTER=(47 72 43 42 29 47 30 28 34 42 55 20 35 27 20 24 28 78)
           
-          START_DATE="2026-01-01"
-          TODAY_SECONDS=$(date +%s)
-          START_SECONDS=$(date -d "$START_DATE" +%s)
-          DAYS_DIFF=$(( (TODAY_SECONDS - START_SECONDS) / 86400 ))
+#           START_DATE="2026-01-01"
+#           TODAY_SECONDS=$(date +%s)
+#           START_SECONDS=$(date -d "$START_DATE" +%s)
+#           DAYS_DIFF=$(( (TODAY_SECONDS - START_SECONDS) / 86400 ))
           
-          # Ensure positive DAYS_DIFF
-          if [ $DAYS_DIFF -lt 0 ]; then DAYS_DIFF=0; fi
+#           # Ensure positive DAYS_DIFF
+#           if [ $DAYS_DIFF -lt 0 ]; then DAYS_DIFF=0; fi
 
-          VERSE_INDEX=$(( DAYS_DIFF % 700 ))
+#           VERSE_INDEX=$(( DAYS_DIFF % 700 ))
           
-          echo "📅 Day $DAYS_DIFF since start"
-          echo "📖 Verse index: $VERSE_INDEX"
+#           echo "📅 Day $DAYS_DIFF since start"
+#           echo "📖 Verse index: $VERSE_INDEX"
           
-          CHAPTER=1
-          REMAINING=$VERSE_INDEX
+#           CHAPTER=1
+#           REMAINING=$VERSE_INDEX
           
-          for i in "${!VERSES_PER_CHAPTER[@]}"; do
-            CHAPTER_VERSES=${VERSES_PER_CHAPTER[$i]}
-            if [ $REMAINING -lt $CHAPTER_VERSES ]; then
-              CHAPTER=$((i + 1))
-              VERSE=$((REMAINING + 1))
-              break
-            fi
-            REMAINING=$((REMAINING - CHAPTER_VERSES))
-          done
+#           for i in "${!VERSES_PER_CHAPTER[@]}"; do
+#             CHAPTER_VERSES=${VERSES_PER_CHAPTER[$i]}
+#             if [ $REMAINING -lt $CHAPTER_VERSES ]; then
+#               CHAPTER=$((i + 1))
+#               VERSE=$((REMAINING + 1))
+#               break
+#             fi
+#             REMAINING=$((REMAINING - CHAPTER_VERSES))
+#           done
           
-          echo "🎯 Target: Chapter $CHAPTER, Verse $VERSE"
+#           echo "🎯 Target: Chapter $CHAPTER, Verse $VERSE"
           
-          # Attempt fetch - disable exit-on-error temporarily
-          set +e
-          API_URL="https://vedicscriptures.github.io/slok/${CHAPTER}/${VERSE}"
-          echo "🌐 Fetching from: $API_URL"
-          RESPONSE=$(curl -s -f "$API_URL" 2>/dev/null)
-          CURL_EXIT=$?
-          set -e
+#           # Attempt fetch - disable exit-on-error temporarily
+#           set +e
+#           API_URL="https://vedicscriptures.github.io/slok/${CHAPTER}/${VERSE}"
+#           echo "🌐 Fetching from: $API_URL"
+#           RESPONSE=$(curl -s -f "$API_URL" 2>/dev/null)
+#           CURL_EXIT=$?
+#           set -e
           
-          # Validate response
-          FETCH_SUCCESS=0
-          if [ $CURL_EXIT -eq 0 ] && [ -n "$RESPONSE" ]; then
-            # Check if valid JSON
-            if echo "$RESPONSE" | jq -e . >/dev/null 2>&1; then
-              echo "✅ Successfully fetched verse from API"
-              FETCH_SUCCESS=1
-            else
-              echo "⚠️ API returned invalid JSON"
-            fi
-          else
-            echo "⚠️ curl failed or empty response (exit code: $CURL_EXIT)"
-          fi
+#           # Validate response
+#           FETCH_SUCCESS=0
+#           if [ $CURL_EXIT -eq 0 ] && [ -n "$RESPONSE" ]; then
+#             # Check if valid JSON
+#             if echo "$RESPONSE" | jq -e . >/dev/null 2>&1; then
+#               echo "✅ Successfully fetched verse from API"
+#               FETCH_SUCCESS=1
+#             else
+#               echo "⚠️ API returned invalid JSON"
+#             fi
+#           else
+#             echo "⚠️ curl failed or empty response (exit code: $CURL_EXIT)"
+#           fi
           
-          # Use fallback if fetch failed
-          if [ $FETCH_SUCCESS -eq 0 ]; then
-             echo "🔄 Using fallback verse (BG 2.47)"
-             RESPONSE='{"slok":"कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥","siva":{"et":"You have the right to work only, but never to its fruits. Let not the fruits of action be your motive, nor let your attachment be to inaction."}}'
-             CHAPTER=2
-             VERSE=47
-          fi
+#           # Use fallback if fetch failed
+#           if [ $FETCH_SUCCESS -eq 0 ]; then
+#              echo "🔄 Using fallback verse (BG 2.47)"
+#              RESPONSE='{"slok":"कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥","siva":{"et":"You have the right to work only, but never to its fruits. Let not the fruits of action be your motive, nor let your attachment be to inaction."}}'
+#              CHAPTER=2
+#              VERSE=47
+#           fi
 
-          # Extract data using jq
-          SLOK=$(echo "$RESPONSE" | jq -r '.slok // "ERROR"')
-          TRANSLATION=$(echo "$RESPONSE" | jq -r '(.siva.et // .tej.ht // .purohit.et // "Translation unavailable")')
+#           # Extract data using jq
+#           SLOK=$(echo "$RESPONSE" | jq -r '.slok // "ERROR"')
+#           TRANSLATION=$(echo "$RESPONSE" | jq -r '(.siva.et // .tej.ht // .purohit.et // "Translation unavailable")')
           
-          if [ "$SLOK" == "ERROR" ]; then
-             echo "❌ Failed to extract slok from response"
-             exit 1
-          fi
+#           if [ "$SLOK" == "ERROR" ]; then
+#              echo "❌ Failed to extract slok from response"
+#              exit 1
+#           fi
 
-          # Clean up slok
-          SLOK=$(echo "$SLOK" | sed 's/\\n/\n/g' | sed 's/|/।/g')
+#           # Clean up slok
+#           SLOK=$(echo "$SLOK" | sed 's/\\n/\n/g' | sed 's/|/।/g')
           
-          echo "📜 Sanskrit text extracted"
-          echo "🔤 Translation extracted"
+#           echo "📜 Sanskrit text extracted"
+#           echo "🔤 Translation extracted"
           
-          # Export for Python script
-          export CHAPTER
-          export VERSE
-          export SLOK
-          export TRANSLATION
+#           # Export for Python script
+#           export CHAPTER
+#           export VERSE
+#           export SLOK
+#           export TRANSLATION
           
-          # Update README with Python
-          python3 << 'PYTHON_SCRIPT'
-          import sys
-          import os
+#           # Update README with Python
+#           python3 << 'PYTHON_SCRIPT'
+#           import sys
+#           import os
           
-          # Read environment variables set by bash
-          chapter = os.environ.get('CHAPTER', '2')
-          verse = os.environ.get('VERSE', '47')
-          slok = os.environ.get('SLOK', 'Error')
-          translation = os.environ.get('TRANSLATION', 'Translation unavailable')
+#           # Read environment variables set by bash
+#           chapter = os.environ.get('CHAPTER', '2')
+#           verse = os.environ.get('VERSE', '47')
+#           slok = os.environ.get('SLOK', 'Error')
+#           translation = os.environ.get('TRANSLATION', 'Translation unavailable')
           
-          readme_path = 'README.md'
+#           readme_path = 'README.md'
           
-          try:
-              with open(readme_path, 'r', encoding='utf-8') as f:
-                  readme = f.read()
+#           try:
+#               with open(readme_path, 'r', encoding='utf-8') as f:
+#                   readme = f.read()
               
-              # Build new verse block
-              new_verse = f'''<img src="https://img.shields.io/badge/अध्याय_{chapter}-श्लोक_{verse}-FF9933?style=flat-square&labelColor=0d1117"/>
+#               # Build new verse block
+#               new_verse = f'''<img src="https://img.shields.io/badge/अध्याय_{chapter}-श्लोक_{verse}-FF9933?style=flat-square&labelColor=0d1117"/>
 
-          ```sanskrit
-          {slok}
-          ```
+#           ```sanskrit
+#           {slok}
+#           ```
 
-          <sub>
+#           <sub>
 
-          **{translation}**
+#           **{translation}**
 
-          *— Bhagavad Gita, Chapter {chapter}, Verse {verse}*
+#           *— Bhagavad Gita, Chapter {chapter}, Verse {verse}*
 
-          </sub>'''
+#           </sub>'''
               
-              # Find and replace in README
-              start_marker = '<td align="center" width="800">'
-              end_marker = '<sub>📅 Updates daily'
+#               # Find and replace in README
+#               start_marker = '<td align="center" width="800">'
+#               end_marker = '<sub>📅 Updates daily'
               
-              start_idx = readme.find(start_marker)
-              end_idx = readme.find(end_marker)
+#               start_idx = readme.find(start_marker)
+#               end_idx = readme.find(end_marker)
               
-              if start_idx == -1 or end_idx == -1:
-                  print(f"ERROR: Could not find markers. start={start_idx}, end={end_idx}")
-                  sys.exit(1)
+#               if start_idx == -1 or end_idx == -1:
+#                   print(f"ERROR: Could not find markers. start={start_idx}, end={end_idx}")
+#                   sys.exit(1)
               
-              # Replace content
-              before = readme[:start_idx + len(start_marker)]
-              after = readme[end_idx:]
+#               # Replace content
+#               before = readme[:start_idx + len(start_marker)]
+#               after = readme[end_idx:]
               
-              new_readme = before + '\n\n' + new_verse + '\n\n<br>\n\n' + after
+#               new_readme = before + '\n\n' + new_verse + '\n\n<br>\n\n' + after
               
-              with open(readme_path, 'w', encoding='utf-8') as f:
-                  f.write(new_readme)
+#               with open(readme_path, 'w', encoding='utf-8') as f:
+#                   f.write(new_readme)
               
-              print("✅ README updated successfully")
+#               print("✅ README updated successfully")
               
-          except Exception as e:
-              print(f"ERROR: {e}")
-              import traceback
-              traceback.print_exc()
-              sys.exit(1)
-          PYTHON_SCRIPT
+#           except Exception as e:
+#               print(f"ERROR: {e}")
+#               import traceback
+#               traceback.print_exc()
+#               sys.exit(1)
+#           PYTHON_SCRIPT
 
-      - name: Commit and Push Changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "Gita Bot 📖"
-          git add README.md
+#       - name: Commit and Push Changes
+#         run: |
+#           git config --local user.email "action@github.com"
+#           git config --local user.name "Gita Bot 📖"
+#           git add README.md
           
-          if git diff --staged --quiet; then
-            echo "ℹ️ No changes to commit"
-          else
-            git commit -m "📖 Daily Gita verse update"
-            git push
-            echo "✅ Changes pushed successfully"
-          fi
+#           if git diff --staged --quiet; then
+#             echo "ℹ️ No changes to commit"
+#           else
+#             git commit -m "📖 Daily Gita verse update"
+#             git push
+#             echo "✅ Changes pushed successfully"
+#           fi
