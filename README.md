@@ -481,8 +481,8 @@ flowchart LR
 <!-- NOTE: This block is auto-updated by the jamesgeorge007/github-activity-readme GitHub Action.
      Make sure the workflow is enabled in this repo, otherwise this will remain stale. -->
 <!--START_SECTION:activity-->
-1. 💪 Opened PR [#23](https://github.com/DevWizard-Vandan/ritam/pull/23) in [DevWizard-Vandan/ritam](https://github.com/DevWizard-Vandan/ritam)
-2. 🎉 Merged PR [#22](https://github.com/DevWizard-Vandan/ritam/pull/22) in [DevWizard-Vandan/ritam](https://github.com/DevWizard-Vandan/ritam)
+1. 🗣 Commented on [#23](https://github.com/DevWizard-Vandan/ritam/pull/23#issuecomment-4231269706) in [DevWizard-Vandan/ritam](https://github.com/DevWizard-Vandan/ritam)
+2. 💪 Opened PR [#23](https://github.com/DevWizard-Vandan/ritam/pull/23) in [DevWizard-Vandan/ritam](https://github.com/DevWizard-Vandan/ritam)
 <!--END_SECTION:activity-->
 
 <br><br>
