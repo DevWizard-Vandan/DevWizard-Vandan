@@ -481,8 +481,8 @@ flowchart LR
 <!-- NOTE: This block is auto-updated by the jamesgeorge007/github-activity-readme GitHub Action.
      Make sure the workflow is enabled in this repo, otherwise this will remain stale. -->
 <!--START_SECTION:activity-->
-1. 💪 Opened PR [#3](https://github.com/DevWizard-Vandan/Kala-Vyapti/pull/3) in [DevWizard-Vandan/Kala-Vyapti](https://github.com/DevWizard-Vandan/Kala-Vyapti)
-2. 🎉 Merged PR [#2](https://github.com/DevWizard-Vandan/Kala-Vyapti/pull/2) in [DevWizard-Vandan/Kala-Vyapti](https://github.com/DevWizard-Vandan/Kala-Vyapti)
+1. ℹ️ Labeled issue [#3](https://github.com/DevWizard-Vandan/radhe-ai/issues/3) in [DevWizard-Vandan/radhe-ai](https://github.com/DevWizard-Vandan/radhe-ai)
+2. ❗ Opened issue [#3](https://github.com/DevWizard-Vandan/radhe-ai/issues/3) in [DevWizard-Vandan/radhe-ai](https://github.com/DevWizard-Vandan/radhe-ai)
 <!--END_SECTION:activity-->
 
 <br><br>
