@@ -481,8 +481,8 @@ flowchart LR
 <!-- NOTE: This block is auto-updated by the jamesgeorge007/github-activity-readme GitHub Action.
      Make sure the workflow is enabled in this repo, otherwise this will remain stale. -->
 <!--START_SECTION:activity-->
-1. 🔒 Closed issue [#1](https://github.com/DevWizard-Vandan/radhe-ai/issues/1) in [DevWizard-Vandan/radhe-ai](https://github.com/DevWizard-Vandan/radhe-ai)
-2. 🔒 Closed issue [#2](https://github.com/DevWizard-Vandan/radhe-ai/issues/2) in [DevWizard-Vandan/radhe-ai](https://github.com/DevWizard-Vandan/radhe-ai)
+1. 🚀 Published release [Radhe AI v0.3.0](https://github.com/DevWizard-Vandan/radhe-ai/releases/tag/v0.3.0) in [DevWizard-Vandan/radhe-ai](https://github.com/DevWizard-Vandan/radhe-ai)
+2. 🔒 Closed issue [#4](https://github.com/DevWizard-Vandan/radhe-ai/issues/4) in [DevWizard-Vandan/radhe-ai](https://github.com/DevWizard-Vandan/radhe-ai)
 <!--END_SECTION:activity-->
 
 <br><br>
