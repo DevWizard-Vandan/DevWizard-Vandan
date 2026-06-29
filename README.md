@@ -481,8 +481,8 @@ flowchart LR
 <!-- NOTE: This block is auto-updated by the jamesgeorge007/github-activity-readme GitHub Action.
      Make sure the workflow is enabled in this repo, otherwise this will remain stale. -->
 <!--START_SECTION:activity-->
-1. 🔒 Closed issue [#7](https://github.com/DevWizard-Vandan/ghostsig/issues/7) in [DevWizard-Vandan/ghostsig](https://github.com/DevWizard-Vandan/ghostsig)
-2. 🔒 Closed issue [#6](https://github.com/DevWizard-Vandan/ghostsig/issues/6) in [DevWizard-Vandan/ghostsig](https://github.com/DevWizard-Vandan/ghostsig)
+1. 🔒 Closed issue [#8](https://github.com/DevWizard-Vandan/ghostsig/issues/8) in [DevWizard-Vandan/ghostsig](https://github.com/DevWizard-Vandan/ghostsig)
+2. 🔒 Closed issue [#7](https://github.com/DevWizard-Vandan/ghostsig/issues/7) in [DevWizard-Vandan/ghostsig](https://github.com/DevWizard-Vandan/ghostsig)
 <!--END_SECTION:activity-->
 
 <br><br>
