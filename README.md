@@ -47,7 +47,7 @@
 
 <br>
 
-> **"You have the right to work only, but never to its fruits. Let not the fruits of action be your motive, nor let your attachment be to inaction."**
+> **"You have the right to work only, but never to its returns. Let not the rewards of action be your motive, nor let your attachment be to inaction."**
 
 <br>
 
