@@ -481,8 +481,8 @@ flowchart LR
 <!-- NOTE: This block is auto-updated by the jamesgeorge007/github-activity-readme GitHub Action.
      Make sure the workflow is enabled in this repo, otherwise this will remain stale. -->
 <!--START_SECTION:activity-->
-1. 🔒 Closed issue [#8](https://github.com/DevWizard-Vandan/ghostsig/issues/8) in [DevWizard-Vandan/ghostsig](https://github.com/DevWizard-Vandan/ghostsig)
-2. 🔒 Closed issue [#7](https://github.com/DevWizard-Vandan/ghostsig/issues/7) in [DevWizard-Vandan/ghostsig](https://github.com/DevWizard-Vandan/ghostsig)
+1. 🚀 Published release [Advaita AIMC Compiler SDK v1.0.0 - Hardware-Aware Benchmarks final](https://github.com/DevWizard-Vandan/advaita-docs/releases/tag/v1.0.1) in [DevWizard-Vandan/advaita-docs](https://github.com/DevWizard-Vandan/advaita-docs)
+2. 🚀 Published release [Advaita AIMC Compiler SDK v1.0.0 - Hardware-Aware Benchmarks](https://github.com/DevWizard-Vandan/advaita-docs/releases/tag/v1.0.0) in [DevWizard-Vandan/advaita-docs](https://github.com/DevWizard-Vandan/advaita-docs)
 <!--END_SECTION:activity-->
 
 <br><br>
